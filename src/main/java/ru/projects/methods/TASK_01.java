@@ -17,43 +17,26 @@ public class TASK_01 {
         double[][] matrix = new double[numberOfEquation][numberOfEquation];
         double[] rightAfterEqualSign = new double[numberOfEquation];
         double[] result = new double[matrix.length];
-
+        //матрица
         for(int i = 0; i < numberOfEquation; i++){
             System.out.print("Введите коэфициэнты " + i + " строки: ");
             for(int j = 0; j < numberOfEquation; j++){
                 matrix[i][j] = scan.nextDouble();
             }
         }
-
+        //ответы справа
         System.out.print("Введите значения после знака равно: ");
         for(int i = 0; i < numberOfEquation; i++){
             rightAfterEqualSign[i] = scan.nextDouble();
         }
 
-
         System.out.println("ДО:");
         printArray(matrix);
         //приведение к диагональной
-        for(int diagonal = 0; diagonal < matrix.length - 1; diagonal++){
-            int row = diagonal + 1;
-            while (row < matrix.length){
-                double coefficient = matrix[row][diagonal] / matrix[diagonal][diagonal];
-                for (int i = diagonal; i < matrix.length; i ++){
-                    matrix[row][i] -= matrix[diagonal][i] * coefficient;
-                }
-                row++;
-            }
-        }
+        matrixToDiagonalMatrix(matrix);
 
         //нахождение решений
-        for(int i = matrix.length - 1; i >= 0; i--){
-            for(int j = 0; j < matrix.length; j++){
-                if (i != j){
-                    rightAfterEqualSign[i] -= result[j] * matrix [i][j];
-                }
-            }
-            result[i] = rightAfterEqualSign[i] / matrix [i][i];
-        }
+        matrixSolution(matrix, rightAfterEqualSign, result);
 
         System.out.println("ПОСЛЕ:");
         printArray(matrix);
@@ -74,5 +57,26 @@ public class TASK_01 {
             System.out.println();
         }
     }
-
+    static void matrixToDiagonalMatrix(double[][] matrix){
+        for(int diagonal = 0; diagonal < matrix.length - 1; diagonal++){
+            int row = diagonal + 1;
+            while (row < matrix.length){
+                double coefficient = matrix[row][diagonal] / matrix[diagonal][diagonal];
+                for (int i = diagonal; i < matrix.length; i ++){
+                    matrix[row][i] -= matrix[diagonal][i] * coefficient;
+                }
+                row++;
+            }
+        }
+    }
+    static void matrixSolution (double[][] matrix, double[] rightAfterEqualSign, double[] result){
+        for(int i = matrix.length - 1; i >= 0; i--){
+            for(int j = 0; j < matrix.length; j++){
+                if (i != j){
+                    rightAfterEqualSign[i] -= result[j] * matrix [i][j];
+                }
+            }
+            result[i] = rightAfterEqualSign[i] / matrix [i][i];
+        }
+    }
 }

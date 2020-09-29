@@ -3,12 +3,11 @@ package ru.projects.methods.TASK_01;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 
 import java.util.Scanner;
 
-public class Main {
+public class MatrixMain {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -26,7 +25,7 @@ public class Main {
             }
         }
         //вектор
-        System.out.print("Введите значения после знака равно: ");
+        System.out.print("Введите свободные коэффициенты: ");
         for (int i = 0; i < numberOfEquation; i++) {
             vector[i] = scan.nextDouble();
         }

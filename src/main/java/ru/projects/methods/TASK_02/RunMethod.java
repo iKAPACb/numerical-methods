@@ -43,13 +43,17 @@ public class RunMethod {
             vector[i] = scan.nextDouble();
         }
 
+        alfaKoef();
+        betaKoef();
+        solution();
+        System.out.println(Arrays.toString(solution));
 
     }
     private static void alfaKoef(){
-        alfa[0] = matrix[0][1] / matrix [0][0];
+        alfa[0] = - ( matrix[0][1] / matrix [0][0]);
         alfa[matrix.length - 1] = 0;
         for (int i = 1; i < matrix.length - 1; i++){
-            //            B                  C               A
+            //            C                  B              A
             alfa[i] = matrix[i][i + 1] / (matrix[i][i] - matrix[i][i - 1] * alfa[i - 1]);
         }
     }
@@ -57,8 +61,8 @@ public class RunMethod {
     private static void betaKoef(){
         beta[0] = vector[0] / matrix [0][0];
         for (int i = 1; i < matrix.length ;i++){
-            //           b             A                                 C
-            beta[i] = (vector[i] + matrix[i][i - 1] * beta[i -1]) / (matrix[i][i] - matrix[i][i - 1] * alfa[i -1]);
+            //           b             A                                 B               A
+            beta[i] = (vector[i] - matrix[i][i - 1] * beta[i -1]) / (matrix[i][i] + matrix[i][i - 1] * alfa[i -1]);
         }
     }
 

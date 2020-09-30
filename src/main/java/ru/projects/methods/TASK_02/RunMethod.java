@@ -2,26 +2,70 @@ package ru.projects.methods.TASK_02;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class RunMethod {
+
+    private static int numberOfEquation;
+    private static double[][] matrix;
+    private static double[] vector;
+
+    private static double[] alfa;
+    private static double[] beta;
+    private static double[] solution;
+
     public static void main(String[] args) throws FileNotFoundException {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("Введите размер матрицы / кол-во уравнений: ");
+        //размер массива
+        numberOfEquation = Integer.parseInt(scan.nextLine());
+        //инициализация
+        matrix = new double[numberOfEquation][numberOfEquation];
+        vector = new double[numberOfEquation];
+
+        alfa = new double[numberOfEquation];
+        beta = new double[numberOfEquation];
+        solution = new double[numberOfEquation];
+        //матрица
+
+        for (int i = 0; i < numberOfEquation; i++) {
+            System.out.print("Введите коэфициэнты " + i + " строки: ");
+            for (int j = 0; j < numberOfEquation; j++) {
+                matrix[i][j] = scan.nextDouble();
+            }
+        }
+        //вектор
+        System.out.print("Введите свободные коэффициенты: ");
+        for (int i = 0; i < numberOfEquation; i++) {
+            vector[i] = scan.nextDouble();
+        }
+
 
     }
-    void solveMatrix (int n, double[] a, double[] c, double[] b, double[] f, double[] x) {
-        double m;
-        for (int i = 1; i < n; i++)
-        {
-            m = a[i]/c[i-1];
-            c[i] = c[i] - m*b[i-1];
-            f[i] = f[i] - m*f[i-1];
+    private static void alfaKoef(){
+        alfa[0] = matrix[0][1] / matrix [0][0];
+        alfa[matrix.length - 1] = 0;
+        for (int i = 1; i < matrix.length - 1; i++){
+            //            B                  C               A
+            alfa[i] = matrix[i][i + 1] / (matrix[i][i] - matrix[i][i - 1] * alfa[i - 1]);
         }
+    }
 
-        x[n-1] = f[n-1]/c[n-1];
-
-        for (int i = n - 2; i >= 0; i--)
-        {
-            x[i]=(f[i]-b[i]*x[i+1])/c[i];
+    private static void betaKoef(){
+        beta[0] = vector[0] / matrix [0][0];
+        for (int i = 1; i < matrix.length ;i++){
+            //           b             A                                 C
+            beta[i] = (vector[i] + matrix[i][i - 1] * beta[i -1]) / (matrix[i][i] - matrix[i][i - 1] * alfa[i -1]);
         }
+    }
+
+    private static void solution(){
+        for (int i = matrix.length - 1; i > 0; i --){
+            solution[i] = (vector[i] + matrix[i][i - 1] * beta[i - 1]) / (matrix[i][i] - matrix[i][i - 1] * alfa[i - 1]);
+        }
+        solution[0] = alfa[0] * solution[1] + beta [0];
     }
 }

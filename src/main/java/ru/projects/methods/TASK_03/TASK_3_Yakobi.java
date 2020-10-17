@@ -111,7 +111,6 @@ public class TASK_3_Yakobi {
         System.out.println("Норма матрицы B "+Bc);
         // Априорная оценка необходимого числа итераций k для достижения заданной точности
         double k = Math.floor((Math.log10(e)-Math.log10(Bc)+Math.log10(1-Ac))/(Math.log10(Ac)));
-        System.out.println("необходимое число итераций = "+k);
         double [] x = new double[numberOfEquation];
         for (int i = 0; i < numberOfEquation; i++) {
             x[i] = b[i];
@@ -143,6 +142,7 @@ public class TASK_3_Yakobi {
             }
             N = N+1;
         }while(Ek>e);
+        System.out.println("необходимое число итераций = "+k);
         System.out.println("Потребовалось " + N + " итераций");
         System.out.println("Норма матрицы А "+Ac);
     }

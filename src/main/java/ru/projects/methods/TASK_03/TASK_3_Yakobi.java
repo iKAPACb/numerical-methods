@@ -5,30 +5,56 @@ import java.util.Scanner;
 public class TASK_3_Yakobi {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("Введите размер матрицы / кол-во уравнений: ");
-        //размер массива
-        int numberOfEquation = Integer.parseInt(scan.nextLine());
+        System.out.println("МЕНЮ:\n 1.ПОДСЧЕТ 5ГО ВАРИАНТА\n 2.ВВОД СВОЕЙ МАТРИЦЫ\n Введите 1 или 2");
+        int choice = scan.nextInt();
         //инициализация
-        double[][] matrix = new double[numberOfEquation][numberOfEquation];
-        double[] b = new double[numberOfEquation];
+        double[][] matrix;
+        double[] b;
+        double e;
+        int numberOfEquation = 0;
+        switch (choice) {
+            case 1:
+                matrix = new double[][]{{20, 5, 7,1}, {-1, 13, 0,-7}, {4, -6, 17,5},{-9,8,4,-25}};
+                b = new double[]{-117,-1,49,-21};
+                e = 0.001;
+                numberOfEquation = matrix.length;
+                break;
+            case 2:
+                System.out.print("Введите размер матрицы / кол-во уравнений: ");
+                //размер массива
+                numberOfEquation = scan.nextInt();
+                matrix = new double[numberOfEquation][numberOfEquation];
+                b = new double[numberOfEquation];
+                for (int i = 0; i < numberOfEquation; i++) {
+                    int Stroka = i+1;
+                    System.out.print("Введите коэфициэнты " + Stroka + " строки: ");
+                    for (int j = 0; j < numberOfEquation; j++) {
+                        matrix[i][j] = scan.nextDouble();
+                    }
+                }
+                //вектор заполнение
+                System.out.print("Введите свободные коэффициенты: ");
+                for (int i = 0; i < numberOfEquation; i++) {
+                    b[i] = scan.nextDouble();
+                }
+                //Точность
+                System.out.println("Введите точность (Через запятую)");
+                e = scan.nextDouble();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + choice);
+        }
         double[] m = new double[numberOfEquation];
         double[] max = new double[numberOfEquation];
         double[][] a = new double[numberOfEquation][numberOfEquation];
         //матрица
-        for (int i = 0; i < numberOfEquation; i++) {
-            int Stroka = i+1;
-            System.out.print("Введите коэфициэнты " + Stroka + " строки: ");
-            for (int j = 0; j < numberOfEquation; j++) {
-                matrix[i][j] = scan.nextDouble();
-            }
-        }
-        //вектор заполнение
-        System.out.print("Введите свободные коэффициенты: ");
-        for (int i = 0; i < numberOfEquation; i++) b[i] = scan.nextDouble();
-        //Точность
-        System.out.println("Введите точность (Через запятую)");
-        double e = scan.nextDouble();
-
+        double Ek;
+        double [] delta = new double[numberOfEquation];
+        double DeltaMax;
+        double [] sum = new double[numberOfEquation];
+        double [] helper = new double[numberOfEquation];
+        double Ac =0;
+        double Bc =0;
         for (int i = 0; i < numberOfEquation; i++) {
             for (int j = 0; j < numberOfEquation; j++) {
                 a[i][j] = matrix[i][j];
@@ -48,14 +74,12 @@ public class TASK_3_Yakobi {
         }
         for (int i = 0; i < numberOfEquation; i++) {
             for (int j = 0; j <numberOfEquation ; j++) {
-            a[i][j] = a[i][j]/m[i] * -1;
-            if (a[i][j]==0){
+                a[i][j] = a[i][j]/m[i] * -1;
+                if (a[i][j]==0){
                     a[i][j]=0;
                 }
             }
         }
-        double Ac =0;
-        double Bc =0;
         for (int i = 0; i < numberOfEquation; i++) {
             for (int j = 0; j < numberOfEquation; j++) {
                 max[i] = max[i] + Math.abs(a[i][j]);
@@ -64,7 +88,7 @@ public class TASK_3_Yakobi {
                 }
                 if (max[i]>=1) {
                     System.out.println("Норма матрицы A >= 1");
-                    break;                  //   Проверка условия ||a||c < 1
+                    break;                              //Проверка условия ||a||c<1
                 }
             }
             if (Ac<max[i]){
@@ -79,12 +103,12 @@ public class TASK_3_Yakobi {
             }
             System.out.println();
         }
-        System.out.println("Норма матрицы А = "+Ac);
+        System.out.println("Норма матрицы А "+Ac);
         System.out.println("Матрица B");
         for (int i = 0; i < numberOfEquation; i++) {
             System.out.printf("%7.3f\n",b[i]);
         }
-        System.out.println("Норма матрицы B = "+Bc);
+        System.out.println("Норма матрицы B "+Bc);
         // Априорная оценка необходимого числа итераций k для достижения заданной точности
         double k = Math.floor((Math.log10(e)-Math.log10(Bc)+Math.log10(1-Ac))/(Math.log10(Ac)));
         System.out.println("необходимое число итераций = "+k);
@@ -92,19 +116,14 @@ public class TASK_3_Yakobi {
         for (int i = 0; i < numberOfEquation; i++) {
             x[i] = b[i];
         }
-        double Ek;
-        double [] delta = new double[numberOfEquation];
-        double DeltaMax;
-        double [] sum = new double[numberOfEquation];
         int N = 0;
-        System.out.println("Нахождение корней:");
         do {
             DeltaMax = 0.0;
             for (int i = 0; i < numberOfEquation; i++) {
                 sum [i] = b[i];
-                    for (int j = 0; j < numberOfEquation; j++) {
-                        sum[i] = sum[i] + (a[i][j] * x[j]);
-                    }
+                for (int j = 0; j < numberOfEquation; j++) {
+                    sum[i] = sum[i] + (a[i][j] * x[j]);
+                }
             }
             for (int i = 0; i < numberOfEquation; i++) {
                 if (N==0){
@@ -124,6 +143,7 @@ public class TASK_3_Yakobi {
             }
             N = N+1;
         }while(Ek>e);
+
         System.out.println("Потребовалось " + N + " итераций");
     }
 }

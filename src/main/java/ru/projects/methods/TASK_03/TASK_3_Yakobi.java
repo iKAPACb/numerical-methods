@@ -143,7 +143,6 @@ public class TASK_3_Yakobi {
             }
             N = N+1;
         }while(Ek>e);
-
         System.out.println("Потребовалось " + N + " итераций");
     }
 }

@@ -14,7 +14,7 @@ public class TASK_3_Yakobi {
         double[] m = new double[numberOfEquation];
         double[] max = new double[numberOfEquation];
         double[][] a = new double[numberOfEquation][numberOfEquation];
-        //матрица
+        //матрица 1
         for (int i = 0; i < numberOfEquation; i++) {
             int Stroka = i+1;
             System.out.print("Введите коэфициэнты " + Stroka + " строки: ");

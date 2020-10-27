@@ -1,0 +1,46 @@
+package ru.projects.methods.TASK_04;
+
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class RotationMethod {
+    public static void main(String[] args) {
+        double[][] Amatrix;
+        double[][] Umatrix;
+        double[][] UTmatrix;
+        double accuracy;
+        int iteration = 0;
+        //Объявление переменных
+        Scanner scan = new Scanner(System.in);
+        System.out.println("МЕНЮ:\n 1.ПОДСЧЕТ 5ГО ВАРИАНТА\n 2.ВВОД СВОЕЙ МАТРИЦЫ\n Введите 1 или 2\n");
+        int choice = scan.nextInt();
+        //инициализация
+        int numberOfEquation = 0;
+        switch (choice) {
+            case 1:
+                Amatrix = new double[][]{{0,-7, 7}, {-7,-9,-5}, {7, -5, -1}};
+                accuracy = Math.pow(10,(-4));
+                break;
+            case 2:
+                System.out.print("Введите размер матрицы / кол-во уравнений: ");
+                //размер массива
+                numberOfEquation = scan.nextInt();
+                Amatrix = new double[numberOfEquation][numberOfEquation];
+                for (int i = 0; i < Amatrix.length; i++) {
+                    int Stroka = i + 1;
+                    System.out.print("Введите коэфициэнты " + Stroka + " строки: ");
+                    for (int j = 0; j < Amatrix.length; j++) {
+                        Amatrix[i][j] = scan.nextDouble();
+                    }
+                }
+            //Точность
+            System.out.println("Введите точность (Через запятую)");
+            accuracy = scan.nextDouble();
+            break;
+        default:
+            throw new IllegalStateException("Unexpected value: " + choice);
+        }
+
+    }
+}

@@ -1,6 +1,12 @@
 package ru.projects.methods.TASK_04;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class RotationMethod {
+    private static List<double[][]> listOfUMatrix = new ArrayList<>();
+
     public static void main(String[] args) {
         double[][] Amatrix;
         double accuracy;
@@ -11,11 +17,16 @@ public class RotationMethod {
         double[][] Umatrix = new double[Amatrix.length][Amatrix.length];
         double[][] UTmatrix = new double[Amatrix.length][Amatrix.length];
         double[][] Ures = new double[Amatrix.length][Amatrix.length];
-        double e;
+        double e = 0;
 
         double[] Lyamda = new double[Amatrix.length];
         double[] Vector = new double[Amatrix.length];
         int iteration = 0;
+
+        double[][] Ares1 = new double[Amatrix.length][Amatrix.length];
+        double[][] Ares2;
+
+        // НАЧАЛО ЦИКЛА
         do {
             for (int i = 0; i < Umatrix.length; i++) {
                 for (int j = 0; j < Umatrix.length; j++) {
@@ -40,7 +51,7 @@ public class RotationMethod {
                 }
             }
             //Находим угол Fi
-            double Fi = 1/2*Math.atan(2*Max/(Amatrix[First][First]-Amatrix[Second][Second]));
+            double Fi = 1.0/2*Math.atan(2*Max/(Amatrix[First][First]-Amatrix[Second][Second]));
             double cosFi = Math.cos(Fi);
             double sinFi = Math.sin(Fi);
             //Получаем U матрицу
@@ -48,6 +59,7 @@ public class RotationMethod {
             Umatrix[Second][Second] = cosFi;
             Umatrix[First][Second] = -sinFi;
             Umatrix[Second][First] = sinFi;
+
             //Транспонируем U матрицу получая UT матрицу.
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
@@ -55,18 +67,19 @@ public class RotationMethod {
                 }
             }
             double sum = 0;
-            e = 0;
             //Находим точность
             for (int i = 1; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
                     if(i>j){
                         sum += Math.pow(Amatrix[i][j],2);
-                        e = Math.pow(sum,0.5);
+
                     }
                 }
             }
+
+            e = Math.pow(sum,0.5);
             //Получаем А(к+1)Матрицу и Итоговую U матрицу
-            double[][] Ares1 = new double[Amatrix.length][Amatrix.length];
+
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
                     Ares1[i][j]=0;
@@ -75,47 +88,53 @@ public class RotationMethod {
                     }
                 }
             }
-            double[][] Ares2 = new double[Amatrix.length][Amatrix.length];
-            double[][] Ures2 = new double[Amatrix.length][Amatrix.length];
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    Ares2[i][j]=0;
-                    Ures2[i][j]=0;
-                    for (int k = 0; k < Amatrix.length; k++) {
-                        Ares2[i][j]+=Ares1[i][k]*Umatrix[k][j];
-                        if(iteration==0){
-                            Ures[i][j]=Umatrix[i][j];
-                        }else {
-                            Ures2[i][j]+=Ures[i][k]*Umatrix[k][j];
-                        }
-                    }
-                }
+
+            Ares2 = multiMatrix(Ares1,Umatrix);
+
+            double[][] matrixToMultiply = new double[Umatrix.length][Umatrix[0].length];
+
+            for (int i = 0; i < Umatrix.length; i++) {
+                System.arraycopy(Umatrix[i], 0, matrixToMultiply[i], 0, Umatrix.length);
             }
+
+            listOfUMatrix.add(matrixToMultiply);
+
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
                     Amatrix[i][j]=Ares2[i][j];
                 }
             }
-            System.out.println("Погрешность = "+e+"Итерация "+iteration);
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    Lyamda[i]=Ares2[i][i];
-                    System.out.print("Lyamda"+i+"=");
-                    System.out.printf("%7.4f\n",Lyamda[i]);
-                }
-            }
-            System.out.println("Собственные вектора");
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    if (iteration==0){
-                        Vector[i]=Ures[j][i];
-                    }else{
-                        Vector[i]=Ures2[j][i];
-                    }
-                }
-                System.out.printf("%7.4f\n",Vector[i]);
-            }
+
             iteration++;
         }while(e>accuracy);
+
+        System.out.println("Погрешность = "+e+"Итерация "+iteration);
+        for (int i = 0; i < Amatrix.length; i++) {
+            for (int j = 0; j < Amatrix.length; j++) {
+                Lyamda[i]=Ares2[i][i];
+            }
+            System.out.print("Lyamda"+i+"=");
+            System.out.printf("%7.4f\n",Lyamda[i]);
+        }
+
+        System.out.println("Собственные вектора");
+        System.out.println(Arrays.deepToString(findFinalUMatrix(0)));
+    }
+
+    private static double[][] findFinalUMatrix(int start) {
+        return start == listOfUMatrix.size() - 2 ? listOfUMatrix.get(start) :
+                multiMatrix(listOfUMatrix.get(start), findFinalUMatrix(start + 1));
+    }
+
+    private static double[][] multiMatrix(double[][] matrix1, double[][] matrix2) {
+        double[][] multi = new double[matrix1.length][matrix1.length];
+        for (int m = 0; m < matrix1.length; m++) {
+            for (int j = 0; j < matrix1.length; j++) {
+                for (int i = 0; i < matrix1.length; i++) {
+                    multi[m][j] += matrix1[m][i] * matrix2[i][j];
+                }
+            }
+        }
+        return multi;
     }
 }

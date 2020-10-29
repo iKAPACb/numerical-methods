@@ -89,7 +89,7 @@ public class RotationMethod {
                 }
             }
 
-            Ares2 = multiMatrix(Ares1, Umatrix);
+            Ares2 = proizvedenieMatrix(Ares1, Umatrix);
 
             double[][] matrixToMultiply = new double[Umatrix.length][Umatrix[0].length];
 
@@ -107,7 +107,7 @@ public class RotationMethod {
             System.out.printf("Погрешность = %.4f Итерация = %d\n",e, ++iteration);
         } while (e > accuracy);
 
-        double[][] FinalMatrix = findFinalUMatrix(0);
+        double[][] FinalMatrix = findResultUMatrix(0);
 
 
 
@@ -126,12 +126,12 @@ public class RotationMethod {
     }
 
 
-    private static double[][] findFinalUMatrix(int start) {
+    private static double[][] findResultUMatrix(int start) {
         return start == listOfUMatrix.size() - 2 ? listOfUMatrix.get(start) :
-                multiMatrix(listOfUMatrix.get(start), findFinalUMatrix(start + 1));
+                proizvedenieMatrix(listOfUMatrix.get(start), findResultUMatrix(start + 1));
     }
 
-    private static double[][] multiMatrix(double[][] matrix1, double[][] matrix2) {
+    private static double[][] proizvedenieMatrix(double[][] matrix1, double[][] matrix2) {
         double[][] multi = new double[matrix1.length][matrix1.length];
         for (int m = 0; m < matrix1.length; m++) {
             for (int j = 0; j < matrix1.length; j++) {

@@ -30,10 +30,10 @@ public class RotationMethod {
         do {
             for (int i = 0; i < Umatrix.length; i++) {
                 for (int j = 0; j < Umatrix.length; j++) {
-                    if (i==j){
-                        Umatrix[i][j]=1;
-                    }else{
-                        Umatrix[i][j]=0;
+                    if (i == j) {
+                        Umatrix[i][j] = 1;
+                    } else {
+                        Umatrix[i][j] = 0;
                     }
                 }
             }
@@ -42,16 +42,16 @@ public class RotationMethod {
             //Находим максимальный элемент и его местоположение,(макс элемент выше главной диагонали)
             double Max = Math.abs(Amatrix[0][1]);
             for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = i+1; j < Amatrix.length; j++) {
-                    if(Math.abs(Max)<Math.abs(Amatrix[i][j])){
-                        Max =Math.abs(Amatrix[i][j]);
+                for (int j = i + 1; j < Amatrix.length; j++) {
+                    if (Math.abs(Max) < Math.abs(Amatrix[i][j])) {
+                        Max = Math.abs(Amatrix[i][j]);
                         First = i;
                         Second = j;
                     }
                 }
             }
             //Находим угол Fi
-            double Fi = 1.0/2*Math.atan(2*Max/(Amatrix[First][First]-Amatrix[Second][Second]));
+            double Fi = 1.0 / 2 * Math.atan(2 * Max / (Amatrix[First][First] - Amatrix[Second][Second]));
             double cosFi = Math.cos(Fi);
             double sinFi = Math.sin(Fi);
             //Получаем U матрицу
@@ -63,33 +63,33 @@ public class RotationMethod {
             //Транспонируем U матрицу получая UT матрицу.
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    UTmatrix[j][i]=Umatrix[i][j];
+                    UTmatrix[j][i] = Umatrix[i][j];
                 }
             }
             double sum = 0;
             //Находим точность
             for (int i = 1; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    if(i>j){
-                        sum += Math.pow(Amatrix[i][j],2);
+                    if (i > j) {
+                        sum += Math.pow(Amatrix[i][j], 2);
 
                     }
                 }
             }
 
-            e = Math.pow(sum,0.5);
+            e = Math.pow(sum, 0.5);
             //Получаем А(к+1)Матрицу и Итоговую U матрицу
 
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    Ares1[i][j]=0;
+                    Ares1[i][j] = 0;
                     for (int k = 0; k < Amatrix.length; k++) {
-                        Ares1[i][j]+=UTmatrix[i][k]*Amatrix[k][j];
+                        Ares1[i][j] += UTmatrix[i][k] * Amatrix[k][j];
                     }
                 }
             }
 
-            Ares2 = multiMatrix(Ares1,Umatrix);
+            Ares2 = multiMatrix(Ares1, Umatrix);
 
             double[][] matrixToMultiply = new double[Umatrix.length][Umatrix[0].length];
 
@@ -101,25 +101,30 @@ public class RotationMethod {
 
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    Amatrix[i][j]=Ares2[i][j];
+                    Amatrix[i][j] = Ares2[i][j];
                 }
             }
+            System.out.printf("Погрешность = %.4f Итерация = %d\n",e, ++iteration);
+        } while (e > accuracy);
 
-            iteration++;
-        }while(e>accuracy);
+        double[][] FinalMatrix = findFinalUMatrix(0);
 
-        System.out.println("Погрешность = "+e+"Итерация "+iteration);
+
+
         for (int i = 0; i < Amatrix.length; i++) {
             for (int j = 0; j < Amatrix.length; j++) {
-                Lyamda[i]=Ares2[i][i];
+                Lyamda[i] = Ares2[i][i];
             }
-            System.out.print("Lyamda"+i+"=");
-            System.out.printf("%7.4f\n",Lyamda[i]);
+            System.out.printf("\nLyamda %d = %7.4f\n", i, Lyamda[i]);
+            System.out.println("Собственный вектор");
+            for (int m = 0; m < Amatrix.length; m++) {
+                System.out.printf("%.4f\n",FinalMatrix[m][i]);
+            }
         }
 
-        System.out.println("Собственные вектора");
-        System.out.println(Arrays.deepToString(findFinalUMatrix(0)));
+
     }
+
 
     private static double[][] findFinalUMatrix(int start) {
         return start == listOfUMatrix.size() - 2 ? listOfUMatrix.get(start) :

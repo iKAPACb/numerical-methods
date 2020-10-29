@@ -15,7 +15,7 @@ public class InputVariables {
         int numberOfEquation = 0;
         switch (choice) {
             case 1:
-                Amatrix = new double[][]{{4,2,1}, {2,5,3}, {1,3,6}};
+                Amatrix = new double[][]{{0,-7,7}, {-7,-9,-5}, {7,-5,-1}};
                 accuracy = 0.5;
                 break;
             case 2:

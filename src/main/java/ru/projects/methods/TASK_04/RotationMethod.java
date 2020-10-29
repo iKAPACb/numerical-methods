@@ -20,7 +20,7 @@ public class RotationMethod {
         do {
             // Создаем единичную матрицу
             for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.lenth; j++) {
+                for (int j = 0; j < Amatrix.length; j++) {
                     if(i==j){
                         Umatrix[i][j] = 1;
                     }

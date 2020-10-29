@@ -91,6 +91,11 @@ public class RotationMethod {
                     }
                 }
             }
+            for (int i = 0; i < Amatrix.length; i++) {
+                for (int j = 0; j < Amatrix.length; j++) {
+                    Amatrix[i][j]=Ares2[i][j];
+                }
+            }
             System.out.println("Погрешность = "+e+"Итерация "+iteration);
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {

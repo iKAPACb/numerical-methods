@@ -1,14 +1,9 @@
 package ru.projects.methods.TASK_04;
 
-
-import java.util.Arrays;
-import java.util.Scanner;
-
 public class RotationMethod {
     public static void main(String[] args) {
         double[][] Amatrix;
         double accuracy;
-        int iteration = 0;
         //Объявление переменных
         InputVariables.scan();
         Amatrix = InputVariables.getAmatrix();
@@ -16,150 +11,106 @@ public class RotationMethod {
         double[][] Umatrix = new double[Amatrix.length][Amatrix.length];
         double[][] UTmatrix = new double[Amatrix.length][Amatrix.length];
         double[][] Ures = new double[Amatrix.length][Amatrix.length];
-        double E;
+        double e;
+
+        double[] Lyamda = new double[Amatrix.length];
+        double[] Vector = new double[Amatrix.length];
+        int iteration = 0;
         do {
-            // Создаем единичную матрицу
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    if(i==j){
-                        Umatrix[i][j] = 1;
-                    }
-                    else{
+            for (int i = 0; i < Umatrix.length; i++) {
+                for (int j = 0; j < Umatrix.length; j++) {
+                    if (i==j){
+                        Umatrix[i][j]=1;
+                    }else{
                         Umatrix[i][j]=0;
                     }
                 }
             }
-            // Ищем максимальный Элемент, находящийся выше побочной диагонали
-            double MaxElement=0;
-            int First=0;
-            int Second=0;
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    if(i<j & MaxElement<Amatrix[i][j]){
-                            MaxElement = Amatrix[i][j];
-                            First = i;
-                            Second = j;
-                        }
-                    }
-                }
-            System.out.println(MaxElement);
-            System.out.println("First = "+First+" Second "+Second);
-            // Находим угол Fi и cosFi, sinFi
-            double Fi = (1.0 / 2) * Math.atan(2*MaxElement/(Amatrix[First][First]-Amatrix[Second][Second]));
-            double SinFi = Math.sin(Fi);
-            double CosFI = Math.cos(Fi);
-            // Получаем матрицу U
-            Umatrix[First][First] = CosFI;
-            Umatrix[Second][Second] = CosFI;
-            Umatrix[First][Second] = -SinFi;
-            Umatrix[Second][First] = SinFi;
-            // Ищем погрешность
-            double Sum = 0;
-            for (int i = 0; i <Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    if(i>j){
-                        Sum += Math.pow(Amatrix[i][j],2);
-                    }
-                }
-            }
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    UTmatrix[i][j]=Umatrix[i][j];
-                }
-            }
-            //Транспонирование матрицы
+            int First = 0;
+            int Second = 1;
+            //Находим максимальный элемент и его местоположение,(макс элемент выше главной диагонали)
+            double Max = Math.abs(Amatrix[0][1]);
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = i+1; j < Amatrix.length; j++) {
-                    double temp = UTmatrix[i][j];
-                    UTmatrix[i][j] = UTmatrix[j][i];
-                    UTmatrix[j][i] = temp;
+                    if(Math.abs(Max)<Math.abs(Amatrix[i][j])){
+                        Max =Math.abs(Amatrix[i][j]);
+                        First = i;
+                        Second = j;
+                    }
                 }
             }
-            // Точность
-            E = Math.pow(Sum,0.5);
-            System.out.println("Точность = "+E);
-            System.out.println("A матрица");
+            //Находим угол Fi
+            double Fi = 1/2*Math.atan(2*Max/(Amatrix[First][First]-Amatrix[Second][Second]));
+            double cosFi = Math.cos(Fi);
+            double sinFi = Math.sin(Fi);
+            //Получаем U матрицу
+            Umatrix[First][First] = cosFi;
+            Umatrix[Second][Second] = cosFi;
+            Umatrix[First][Second] = -sinFi;
+            Umatrix[Second][First] = sinFi;
+            //Транспонируем U матрицу получая UT матрицу.
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    System.out.printf("%.4f ",Amatrix[i][j]);
+                    UTmatrix[j][i]=Umatrix[i][j];
                 }
-                System.out.println();
             }
-            System.out.println("U матрица");
-            for (int i = 0; i < Umatrix.length; i++) {
-                for (int j = 0; j < Umatrix.length; j++) {
-                    System.out.printf("%.4f ",Umatrix[i][j]);
+            double sum = 0;
+            e = 0;
+            //Находим точность
+            for (int i = 1; i < Amatrix.length; i++) {
+                for (int j = 0; j < Amatrix.length; j++) {
+                    if(i>j){
+                        sum += Math.pow(Amatrix[i][j],2);
+                        e = Math.pow(sum,0.5);
+                    }
                 }
-                System.out.println();
             }
-            System.out.println("UT матрица");
-            for (int i = 0; i < UTmatrix.length; i++) {
-                for (int j = 0; j < UTmatrix.length; j++) {
-                    System.out.printf("%.4f ",UTmatrix[i][j]);
-                }
-                System.out.println();
-            }
-            //Умножение матриц
-            double [][] Res ={{0,0,0},{0,0,0},{0,0,0}} ;
+            //Получаем А(к+1)Матрицу и Итоговую U матрицу
+            double[][] Ares1 = new double[Amatrix.length][Amatrix.length];
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
+                    Ares1[i][j]=0;
                     for (int k = 0; k < Amatrix.length; k++) {
-                        Res[i][j] += UTmatrix[i][k] * Amatrix[k][j];
+                        Ares1[i][j]+=UTmatrix[i][k]*Amatrix[k][j];
                     }
                 }
             }
-            double [][] Res2 = {{0,0,0},{0,0,0},{0,0,0}} ;
+            double[][] Ares2 = new double[Amatrix.length][Amatrix.length];
+            double[][] Ures2 = new double[Amatrix.length][Amatrix.length];
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
+                    Ares2[i][j]=0;
+                    Ures2[i][j]=0;
                     for (int k = 0; k < Amatrix.length; k++) {
-                        Res2[i][j] += Res[i][k] * Umatrix[k][j];
-                    }
-                }
-            }
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    Amatrix[i][j] = Res2[i][j];
-                }
-            }
-            //Полученная А матрица
-            System.out.println("Ares");
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    System.out.printf("%.4f ",Amatrix[i][j]);
-                }
-                System.out.println();
-            }
-            System.out.println("Ures");
-            for (int i = 0; i < Amatrix.length; i++) {
-                for (int j = 0; j < Amatrix.length; j++) {
-                    System.out.printf("%.4f ",Ures[i][j]);
-                }
-                System.out.println();
-            }
-            if (iteration == 0){
-                for (int i = 0; i <Amatrix.length ; i++) {
-                    for (int j = 0; j < Amatrix.length; j++) {
-                        Ures[i][j]=Umatrix[i][j];
-                    }
-                }
-            }else {
-                for (int i = 0; i < Amatrix.length; i++) {
-                    for (int j = 0; j < Amatrix.length; j++) {
-                        for (int k = 0; k < Amatrix.length; k++) {
-                            Ures[i][j] += Ures[i][k] * Umatrix[k][j];
+                        Ares2[i][j]+=Ares1[i][k]*Umatrix[k][j];
+                        if(iteration==0){
+                            Ures[i][j]=Umatrix[i][j];
+                        }else {
+                            Ures2[i][j]+=Ures[i][k]*Umatrix[k][j];
                         }
                     }
                 }
             }
-            System.out.println("Ures");
+            System.out.println("Погрешность = "+e+"Итерация "+iteration);
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    System.out.printf("%.4f ",Ures[i][j]);
+                    Lyamda[i]=Ares2[i][i];
+                    System.out.print("Lyamda"+i+"=");
+                    System.out.printf("%7.4f\n",Lyamda[i]);
                 }
-                System.out.println();
+            }
+            System.out.println("Собственные вектора");
+            for (int i = 0; i < Amatrix.length; i++) {
+                for (int j = 0; j < Amatrix.length; j++) {
+                    if (iteration==0){
+                        Vector[i]=Ures[j][i];
+                    }else{
+                        Vector[i]=Ures2[j][i];
+                    }
+                }
+                System.out.printf("%7.4f\n",Vector[i]);
             }
             iteration++;
-
-        }while(E>accuracy);
+        }while(e>accuracy);
     }
 }

@@ -16,7 +16,7 @@ public class InputVariables {
         switch (choice) {
             case 1:
                 Amatrix = new double[][]{{0,-7,7}, {-7,-9,-5}, {7,-5,-1}};
-                accuracy = 0.5;
+                accuracy = 0.0001;
                 break;
             case 2:
                 System.out.print("Введите размер матрицы / кол-во уравнений: ");

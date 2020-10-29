@@ -62,6 +62,7 @@ public class Task5 {
                 System.out.println("Найдем решение уравнения: cosx + 0,25x - 0,5 = 0 На интервале 0<x<PI");
                 a =0;
                 double b = 3.14;
+                System.out.println("x =     "+" e =        ");
                 do {
                     double c = (a+b)/2;
                     double x1 =(Math.cos(a)+0.25*a-0.5);

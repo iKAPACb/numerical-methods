@@ -40,11 +40,11 @@ public class RotationMethod {
             int First = 0;
             int Second = 1;
             //Находим максимальный элемент и его местоположение,(макс элемент выше главной диагонали)
-            double Max = Math.abs(Amatrix[0][1]);
+            double Max = Amatrix[0][1];
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = i + 1; j < Amatrix.length; j++) {
                     if (Math.abs(Max) < Math.abs(Amatrix[i][j])) {
-                        Max = Math.abs(Amatrix[i][j]);
+                        Max = Amatrix[i][j];
                         First = i;
                         Second = j;
                     }
@@ -104,7 +104,7 @@ public class RotationMethod {
                     Amatrix[i][j] = Ares2[i][j];
                 }
             }
-            System.out.printf("Погрешность = %.4f Итерация = %d\n",e, ++iteration);
+            System.out.printf("Погрешность = %.5f Итерация = %d\n",e, ++iteration);
         } while (e > accuracy);
 
         double[][] FinalMatrix = findResultUMatrix(0);

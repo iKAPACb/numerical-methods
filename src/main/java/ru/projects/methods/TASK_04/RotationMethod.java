@@ -158,7 +158,7 @@ public class RotationMethod {
                 }
                 System.out.println();
             }
-            iteration=iteration+1;
+            iteration++;
 
         }while(E>accuracy);
     }

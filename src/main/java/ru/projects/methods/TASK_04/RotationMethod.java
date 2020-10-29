@@ -27,25 +27,23 @@ public class RotationMethod {
                     else{
                         Umatrix[i][j]=0;
                     }
-
                 }
             }
             // Ищем максимальный Элемент, находящийся выше побочной диагонали
-            double MaxElement = Amatrix[0][1];
+            double MaxElement=0;
             int First=0;
             int Second=0;
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    if(i<j){
-                        if (MaxElement<Amatrix[i][j]){
+                    if(i<j & MaxElement<Amatrix[i][j]){
                             MaxElement = Amatrix[i][j];
                             First = i;
                             Second = j;
                         }
                     }
                 }
-            }
             System.out.println(MaxElement);
+            System.out.println("First = "+First+" Second "+Second);
             // Находим угол Fi и cosFi, sinFi
             double Fi = (1.0 / 2) * Math.atan(2*MaxElement/(Amatrix[First][First]-Amatrix[Second][Second]));
             double SinFi = Math.sin(Fi);
@@ -101,6 +99,7 @@ public class RotationMethod {
                 }
                 System.out.println();
             }
+            //Умножение матриц
             double [][] Res ={{0,0,0},{0,0,0},{0,0,0}} ;
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
@@ -122,10 +121,18 @@ public class RotationMethod {
                     Amatrix[i][j] = Res2[i][j];
                 }
             }
+            //Полученная А матрица
             System.out.println("Ares");
             for (int i = 0; i < Amatrix.length; i++) {
                 for (int j = 0; j < Amatrix.length; j++) {
-                    System.out.printf("%.4f ",Res2[i][j]);
+                    System.out.printf("%.4f ",Amatrix[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println("Ures");
+            for (int i = 0; i < Amatrix.length; i++) {
+                for (int j = 0; j < Amatrix.length; j++) {
+                    System.out.printf("%.4f ",Ures[i][j]);
                 }
                 System.out.println();
             }
@@ -151,7 +158,7 @@ public class RotationMethod {
                 }
                 System.out.println();
             }
-            iteration++;
+            iteration=iteration+1;
 
         }while(E>accuracy);
     }

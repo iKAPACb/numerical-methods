@@ -36,9 +36,9 @@ public class Task5 {
                 System.out.println("Найдем решение уравнения: cosx + 0,25x - 0,5 = 0 На интервале "+ a +" <x< "+b);
                     // f1(x) = arccos(0,5 - 0,25x) f1'(x) = 1/sqrt(-x^2+4x+12)
                     f11 = Math.acos(0.5 - 0.25 * a);
-                    p11 = 1 / Math.pow(-Math.pow(a, 2) + 4 * a + 12, 0.5);
+                    p11 = 1 / Math.sqrt(-Math.pow(a, 2) + 4 * a + 12);
                     f12 = Math.acos(0.5 - 0.25 * b);
-                    p12 = 1 / Math.pow(-Math.pow(b, 2) + 4 * b + 12, 0.5);
+                    p12 = 1 / Math.sqrt(-Math.pow(b, 2) + 4 * b + 12);
                     System.out.println(f11 + " " + p11);
                     System.out.println();
                     System.out.println(f12 + " " + p12);
@@ -59,7 +59,7 @@ public class Task5 {
                     q2 = Math.max(Math.abs(p21), Math.abs(p22));
                     System.out.printf("q = %.4f \n", q2);
                     System.out.println();
-                
+                // Проверка на условие сходимости
                 if(Math.abs(p11)<1 && Math.abs(p12)<1 && f11>a && f12<b){
                     q = q1;
                     do {

@@ -81,6 +81,7 @@ public class Task5 {
                         System.out.printf("%7.6f\n",e);
                         Iteration ++;
                     }while (e>Accuracy);
+                //Проверка на условие сходимости
                 }else if(Math.abs(p21)<1 && Math.abs(p22)<1 && f21>a && f22<b){
                     q = q2;
                     System.out.println("x =     "+" e =        ");

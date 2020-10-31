@@ -34,7 +34,7 @@ public class Task5 {
         switch (choice) {
             case 1:
                 System.out.println("Найдем решение уравнения: cosx + 0,25x - 0,5 = 0 На интервале "+ a +" <x< "+b);
-                    // f1(x) = arccos(0,5 - 0,25x) f1'(x) =
+                    // f1(x) = arccos(0,5 - 0,25x) f1'(x) = 1/sqrt(-x^2+4x+12)
                     f11 = Math.acos(0.5 - 0.25 * a);
                     p11 = 1 / Math.pow(-Math.pow(a, 2) + 4 * a + 12, 0.5);
                     f12 = Math.acos(0.5 - 0.25 * b);

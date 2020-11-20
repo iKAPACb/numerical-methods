@@ -60,15 +60,15 @@ public class Task8 {
                             double y = y0;
                             Fi1 = Math.sqrt(4-(Math.pow(x,2)/4));
                             Fi2 = Math.log(4*y-x);
-                            e = (q/q-1)*Math.max(Math.abs(y-Fi1),Math.abs(x-Fi2));
+                            e = (q/(q-1))*Math.max(Math.abs(y-Fi1),Math.abs(x-Fi2));
                             System.out.printf("|%2d|%2.6f|%2.6f|%2.6f|%2.6f  |%2.10f|\n",Iteration,x,y,Fi2,Fi1,e);
-                            y0=y-Fi1;
-                            x0=x-Fi2;
+                            y0=Fi1;
+                            x0=Fi2;
                         }
                         Iteration++;
-
-                    }while(e>Accuracy);
+                    }while(Math.abs(e)>Accuracy);
                 }
+                break;
             case 2:
                 System.out.println("Введите Левую границу отрезка x1 (через запятую)");
                 x1 = scan.nextDouble();
@@ -80,9 +80,9 @@ public class Task8 {
                 y2 = scan.nextDouble();
                 System.out.println("Введите точность (через запятую)");
                 Accuracy = scan.nextDouble();
-                if (x1<=-4.0||x1>-3.0||x2>-3.0||x2<=-4.0||y1<=-1.0||y1>=0||y2<=-1.0||y2>=0){
+                if (x1<=-4.0||x1>-3.0||x2>-3.0||x2<=-4.0||y1<=-2.0||y1>=0||y2<=-2.0||y2>=0){
                     System.out.println("В данном интервале не соблюдается условие сходимости");
-                    System.out.println("Введите интервал соблюдающий условие Х=(-4;-3] Y=(-1;0)");
+                    System.out.println("Введите интервал соблюдающий условие Х=(-4;-3] Y=(-1,5;0)");
                     return;
                 }else {
                     double x0 =(x1+x2)/2;
@@ -103,6 +103,8 @@ public class Task8 {
                         q = Math.max(q1,q2);
                     }
                     double e=10;
+                    double x=0;
+                    double y=0;
                     double Fi1;
                     double Fi2;
                     int Iteration = 0;
@@ -113,22 +115,23 @@ public class Task8 {
                             Fi1 = (1.0/4.0)*Math.exp(x0)+(1.0/4.0)*x0;
                             Fi2 = -1.0*Math.sqrt(16-4*y0*y0);
                             System.out.printf("|%2d|%2.6f|%2.6f|%2.6f|%2.6f  |    -      |\n",Iteration,x0,y0,Fi2,Fi1);
-                            x0 = Fi2;
-                            y0 = Fi1;
+                            x = Fi2;
+                            y = Fi1;
                         }else{
-                            double x = x0;
-                            double y = y0;
                             Fi1 = (1.0/4.0)*Math.exp(x)+(1.0/4.0)*x;
                             Fi2 = -1.0*Math.sqrt(16-4*y*y);
-                            e = (q/q-1)*Math.max(Math.abs(y-Fi1),Math.abs(x-Fi2));
-                            System.out.printf("|%2d|%2.6f|%2.6f|%2.6f|%2.6f  |%2.10f|\n",Iteration,x,y,Fi2,Fi1,e);
-                            y0=y-Fi1;
-                            x0=x-Fi2;
+                            double max;
+                            max = Math.max(Math.abs(y-Fi1),Math.abs(x-Fi2));
+                            e = (q/(q-1))*max;
+                            System.out.printf("|%2d|%2.6f|%2.6f|%2.6f|%2.6f  |%2.10f|\n",Iteration,x,y,Fi2,Fi1,Math.abs(e));
+                            y=Fi1;
+                            x=Fi2;
                         }
                         Iteration++;
-                    }while(e>Accuracy);
+                    }while(Math.abs(e)>Accuracy);
                     System.out.printf("|%2d|%2.6f|%2.6f|%2.6f|%2.6f  |%2.10f|\n",Iteration,Fi2,Fi1,Fi2,Fi1,e);
                 }
+                break;
 
         }
 

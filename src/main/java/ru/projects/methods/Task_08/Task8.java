@@ -132,7 +132,6 @@ public class Task8 {
                     System.out.printf("|%2d|%2.6f|%2.6f|%2.6f|%2.6f  |%2.10f|\n",Iteration,Fi2,Fi1,Fi2,Fi1,e);
                 }
                 break;
-
         }
 
     }

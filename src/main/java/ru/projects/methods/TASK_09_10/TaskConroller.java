@@ -39,7 +39,7 @@ public class TaskConroller {
                 if(checkvar1.isSelected()){
                     Lagrange variant1 = new Lagrange(-3,-1,1,3);
                     for (double x = -3; x <= 3; x += 0.25) {
-                        seriesFunc.getData().add(new XYChart.Data<>(x, variant1.Func(x)));
+                        seriesFunc.getData().add(new XYChart.Data<>(x, variant1.Fист(x)));
                         seriesLagrn.getData().add(new XYChart.Data<>(x, variant1.calculateLagrange(x)));
                     }
                 }
@@ -47,7 +47,7 @@ public class TaskConroller {
                 if (checkvar2.isSelected()) {
                     Lagrange variant2 = new Lagrange(-3,0,1,3);
                     for (double x = -3; x <= 3; x += 0.25) {
-                        seriesFunc.getData().add(new XYChart.Data<>(x, variant2.Func(x)));
+                        seriesFunc.getData().add(new XYChart.Data<>(x, variant2.Fист(x)));
                         seriesLagrn.getData().add(new XYChart.Data<>(x, variant2.calculateLagrange(x)));
                     }
                 }
@@ -92,22 +92,22 @@ public class TaskConroller {
                     Lagrange variant1 = new Lagrange(-3,-1,1,3);
                     for (double x = -3; x <=3 ; x += 0.25) {
                         result.append("X= ").append(String.format("%.3f ",x));
-                        result.append(" f(x) = ").append(String.format("%.3f ",variant1.Func(x)));
+                        result.append(" f(x) = ").append(String.format("%.3f ",variant1.Fист(x)));
                         result.append(" L3(x) = ").append(String.format("%.3f ",variant1.calculateLagrange(x)));
-                        result.append("ΔL3 = ").append(String.format("%.6f\n",variant1.calculateLagrange(x) - variant1.Func(x)));
+                        result.append("ΔL3 = ").append(String.format("%.6f\n",variant1.calculateLagrange(x) - variant1.Fист(x)));
                     }
-                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant1.calculateLagrange(-0.5)- variant1.Func(-0.5)));
+                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant1.calculateLagrange(-0.5)- variant1.Fист(-0.5)));
                 }
 
                 if (checkvar2.isSelected()) {
                     Lagrange variant2 = new Lagrange(-3,0,1,3);
                     for (double x = -3; x <=3 ; x += 0.25) {
                         result.append("X= ").append(String.format("%.3f ",x));
-                        result.append(" f(x) = ").append(String.format("%.3f ",variant2.Func(x)));
+                        result.append(" f(x) = ").append(String.format("%.3f ",variant2.Fист(x)));
                         result.append(" L3(x) = ").append(String.format("%.3f ",variant2.calculateLagrange(x)));
-                        result.append("ΔL3 = ").append(String.format("%.6f\n",variant2.calculateLagrange(x) - variant2.Func(x)));
+                        result.append("ΔL3 = ").append(String.format("%.6f\n",variant2.calculateLagrange(x) - variant2.Fист(x)));
                     }
-                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant2.calculateLagrange(-0.5)- variant2.Func(-0.5)));
+                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant2.calculateLagrange(-0.5)- variant2.Fист(-0.5)));
                 }
             }
 

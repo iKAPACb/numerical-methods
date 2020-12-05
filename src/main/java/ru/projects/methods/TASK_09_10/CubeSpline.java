@@ -2,8 +2,6 @@ package ru.projects.methods.TASK_09_10;
 
 import org.apache.commons.math3.linear.*;
 
-import java.util.Arrays;
-
 public class CubeSpline {
     private double[] X = new double[5];
 
@@ -11,9 +9,9 @@ public class CubeSpline {
 
     private double[] h = new double[5];
 
-    private double[] cKOEF = new double[4];
     private double[] aKOEF = new double[4];
     private double[] bKOEF = new double[4];
+    private double[] cKOEF = new double[4];
     private double[] dKOEF = new double[4];
 
     public CubeSpline(double x0, double x1, double x2, double x3, double x4, double func0, double func1, double func2, double func3, double func4) {
@@ -48,7 +46,7 @@ public class CubeSpline {
         RealVector constants = new ArrayRealVector(new double[]{firstStrokeKoef(), secondStrokeKoef(), thirdStrokeKoef()});
         RealVector solution = solver.solve(constants);
         double[] t = solution.toArray();
-        //C koef initialization
+        //C koef
         for (int i = 0; i < cKOEF.length; i++) {
             if (i == 0) {
                 cKOEF[i] = 0;
@@ -57,18 +55,18 @@ public class CubeSpline {
             }
         }
 
-        //A koef initialization
+        //A koef
         for (int i = 0; i < aKOEF.length; i++) {
             aKOEF[i] = func[i];
         }
 
-        //B koef initialization
+        //B koef
         for (int i = 0; i < aKOEF.length - 1; i++) {
             bKOEF[i] = ((func[i + 1] - func[i]) / h[i + 1]) - ((cKOEF[i + 1] + 2 * cKOEF[i]) * h[i + 1]) / 3;
         }
         bKOEF[3] = ((func[4] - func[3]) / h[4]) - (2 * h[4] * cKOEF[3]) / 3;
 
-        //D koef initialization
+        //D koef
         for (int i = 0; i < dKOEF.length - 1; i++) {
             dKOEF[i] = (cKOEF[i + 1] - cKOEF[i]) / (3 * h[i + 1]);
         }

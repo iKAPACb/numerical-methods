@@ -16,40 +16,39 @@ public class Lagrange {
 
 
     public double calculateLagrange(double x){
-        return firstKOEF(X0,X1,X2,X3)*(x-X1)*(x-X2)*(x-X3)+
-                secondKOEF(X0,X1,X2,X3)*(x-X0)*(x-X2)*(x-X3)+
-                thirdKOEF(X0,X1,X2,X3)*(x-X0)*(x-X1)*(x-X3)+
-                fourthKOEF(X0,X1,X2,X3)*(x-X0)*(x-X1)*(x-X2);
+        return Fkoef(X0,X1,X2,X3)*(x-X1)*(x-X2)*(x-X3)+
+                Skoef(X0,X1,X2,X3)*(x-X0)*(x-X2)*(x-X3)+
+                Tkoef(X0,X1,X2,X3)*(x-X0)*(x-X1)*(x-X3)+
+                ForthKoef(X0,X1,X2,X3)*(x-X0)*(x-X1)*(x-X2);
 
     }
 
-    public double Func(double x){
+    public double Fист(double x){
         return Math.atan(x)+x;
     }
 
-    private double Omega0(double X0, double X1, double X2, double X3){
+    private double ОМЕГА0(double X0, double X1, double X2, double X3){
         return (X0 - X1)*(X0 - X2)*(X0 - X3);
     }
-    private double Omega1(double X0, double X1, double X2, double X3){
+    private double ОМЕГА1(double X0, double X1, double X2, double X3){
         return (X1 - X0)*(X1 - X2)*(X1 - X3);
     }
-    private double Omega2(double X0, double X1, double X2, double X3){
+    private double ОМЕГА2(double X0, double X1, double X2, double X3){
         return (X2 - X0)*(X2 - X1)*(X2 - X3);
     }
-    private double Omega3(double X0, double X1, double X2, double X3){
+    private double ОМЕГА3(double X0, double X1, double X2, double X3){
         return (X3 - X0)*(X3 - X1)*(X3 - X2);
     }
 
-    private double firstKOEF(double X0, double X1, double X2, double X3){
-        return Func(X0) / Omega0(X0,X1,X2,X3);
+    private double Fkoef(double X0, double X1, double X2, double X3){
+        return Fист(X0) / ОМЕГА0(X0,X1,X2,X3);
     }
-    private double secondKOEF(double X0, double X1, double X2, double X3){
-        return Func(X1) / Omega1(X0,X1,X2,X3);
+    private double Skoef(double X0, double X1, double X2, double X3){
+        return Fист(X1) / ОМЕГА1(X0,X1,X2,X3);
     }
-    private double thirdKOEF(double X0, double X1, double X2, double X3){
-        return Func(X2) / Omega2(X0,X1,X2,X3);
+    private double Tkoef(double X0, double X1, double X2, double X3){
+        return Fист(X2) / ОМЕГА2(X0,X1,X2,X3);
     }
-    private double fourthKOEF(double X0, double X1, double X2, double X3){
-        return Func(X3) / Omega3(X0,X1,X2,X3);
-    }
+    private double ForthKoef(double X0, double X1, double X2, double X3){return Fист(X3) / ОМЕГА3(X0,X1,X2,X3);}
 }
+

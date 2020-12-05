@@ -14,8 +14,8 @@ public class MNK {
     private double[][] matrixOfKoef;
     private double[] vectorOfMatrixKoef;
     private Map<Integer, List<Double>> mapOfMNKSystem_XY = new HashMap<>();
-    private double[] A0andA1ForFirstFunc = new double[2];
-    private double[] A0andA1andA2ForSecondFunc = new double[3];
+    private double[] a0a1F1 = new double[2];
+    private double[] a0a1F2 = new double[3];
 
     public MNK(int numberOfPolynomial, double[][] numbersForGeneration) {
         this.len = numberOfPolynomial + 1;
@@ -25,23 +25,23 @@ public class MNK {
         initialization();
     }
 
-    public double func1(double x){
-        return A0andA1ForFirstFunc[0] + A0andA1ForFirstFunc[1] * x;
+    public double Fpribl1(double x){
+        return a0a1F1[0] + a0a1F1[1] * x;
     }
 
-    public double func2(double x){
-        return A0andA1andA2ForSecondFunc[0] + A0andA1andA2ForSecondFunc[1] * x + A0andA1andA2ForSecondFunc[2] * x * x;
+    public double Fpribl2(double x){
+        return a0a1F2[0] + a0a1F2[1] * x + a0a1F2[2] * x * x;
     }
 
     private void initialization(){
         generateMNKSystem();
         createMatrixOfKoef();
         createVectorOfKoef();
-        findA0andA1forFirstFunc();
-        findA0andA1andA2forSecondFunc();
+        Finda0a1F1();
+        Finda0a1F2();
     }
 
-    private void findA0andA1forFirstFunc() {
+    private void Finda0a1F1() {
         double[][] matrixData = new double[len - 1][len - 1];
         for (int i = 0; i < len - 1; i++) {
             for (int j = 0; j < len - 1; j++) {
@@ -56,15 +56,15 @@ public class MNK {
         }
         RealVector constants = new ArrayRealVector(vectorData);
         RealVector solution = solver.solve(constants);
-        A0andA1ForFirstFunc = solution.toArray();
+        a0a1F1 = solution.toArray();
     }
 
-    private void findA0andA1andA2forSecondFunc() {
+    private void Finda0a1F2() {
         RealMatrix m = MatrixUtils.createRealMatrix(matrixOfKoef);
         DecompositionSolver solver = new LUDecomposition(m).getSolver();
         RealVector constants = new ArrayRealVector(vectorOfMatrixKoef);
         RealVector solution = solver.solve(constants);
-        A0andA1andA2ForSecondFunc = solution.toArray();
+        a0a1F2 = solution.toArray();
     }
 
 

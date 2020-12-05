@@ -137,13 +137,13 @@ public class DrawController {
             }
 
             for (double x = XandYFunc[0][0] - 0.5; x < XandYFunc[XandYFunc.length - 1][0] + 0.5; x += 0.01) {
-                POLYNOMIAL1.getData().add(new XYChart.Data<>(x, mnk.func1(x)));
-                POLYNOMIAL2.getData().add(new XYChart.Data<>(x, mnk.func2(x)));
+                POLYNOMIAL1.getData().add(new XYChart.Data<>(x, mnk.Fpribl1(x)));
+                POLYNOMIAL2.getData().add(new XYChart.Data<>(x, mnk.Fpribl2(x)));
             }
 
             String v1 = "Сумма квадратов ошибок:\n";
-            String v2 = String.format("Для первого многочлена = %.5f\n", Math.pow(1.6462 - mnk.func1(-0.7), 2) + Math.pow(1.5823 - mnk.func1(-0.4), 2) + Math.pow(1.571 - mnk.func1(-0.1), 2) + Math.pow(1.5694 - mnk.func1(0.2), 2) + Math.pow(1.5472 - mnk.func1(0.5), 2) + Math.pow(1.4435 - mnk.func1(0.8), 2));
-            String v3 = String.format("Для второго многочлена = %.5f\n", Math.pow(1.6462 - mnk.func2(-0.7), 2) + Math.pow(1.5823 - mnk.func2(-0.4), 2) + Math.pow(1.571 - mnk.func2(-0.1), 2) + Math.pow(1.5694 - mnk.func2(0.2), 2) + Math.pow(1.5472 - mnk.func2(0.5), 2) + Math.pow(1.4435 - mnk.func2(0.8), 2));
+            String v2 = String.format("Для первого многочлена = %.5f\n", Math.pow(1.6462 - mnk.Fpribl1(-0.7), 2) + Math.pow(1.5823 - mnk.Fpribl1(-0.4), 2) + Math.pow(1.571 - mnk.Fpribl1(-0.1), 2) + Math.pow(1.5694 - mnk.Fpribl1(0.2), 2) + Math.pow(1.5472 - mnk.Fpribl1(0.5), 2) + Math.pow(1.4435 - mnk.Fpribl1(0.8), 2));
+            String v3 = String.format("Для второго многочлена = %.5f\n", Math.pow(1.6462 - mnk.Fpribl2(-0.7), 2) + Math.pow(1.5823 - mnk.Fpribl2(-0.4), 2) + Math.pow(1.571 - mnk.Fpribl2(-0.1), 2) + Math.pow(1.5694 - mnk.Fpribl2(0.2), 2) + Math.pow(1.5472 - mnk.Fpribl2(0.5), 2) + Math.pow(1.4435 - mnk.Fpribl2(0.8), 2));
 
             task_11.setText(v1+v2+v3);
 

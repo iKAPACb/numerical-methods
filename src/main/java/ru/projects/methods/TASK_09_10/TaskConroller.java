@@ -58,14 +58,14 @@ public class TaskConroller {
                 if (checkvar1.isSelected()){
                     Newton variant1 = new Newton(-3,-1,1,3);
                     for (double x = -3; x <= 3; x += 0.25) {
-                        seriesFunc.getData().add(new XYChart.Data<>(x, variant1.Func(x)));
+                        seriesFunc.getData().add(new XYChart.Data<>(x, variant1.Fист(x)));
                         seriesLagrn.getData().add(new XYChart.Data<>(x, variant1.calculateNewton(x)));
                     }
                 }
                 if (checkvar2.isSelected()){
                     Newton variant2 = new Newton(-3,0,1,3);
                     for (double x = -3; x <= 3; x += 0.25) {
-                        seriesFunc.getData().add(new XYChart.Data<>(x, variant2.Func(x)));
+                        seriesFunc.getData().add(new XYChart.Data<>(x, variant2.Fист(x)));
                         seriesLagrn.getData().add(new XYChart.Data<>(x, variant2.calculateNewton(x)));
                     }
                 }
@@ -80,6 +80,8 @@ public class TaskConroller {
             newWindow.setScene(scene);
             newWindow.show();
         });
+
+
 
         showtable.setOnMouseClicked(event -> {
             TextArea textArea = new TextArea();
@@ -96,7 +98,7 @@ public class TaskConroller {
                         result.append(" L3(x) = ").append(String.format("%.3f ",variant1.calculateLagrange(x)));
                         result.append("ΔL3 = ").append(String.format("%.6f\n",variant1.calculateLagrange(x) - variant1.Fист(x)));
                     }
-                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant1.calculateLagrange(-0.5)- variant1.Fист(-0.5)));
+                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.20f",variant1.calculateLagrange(-0.5)- variant1.Fист(-0.5)));
                 }
 
                 if (checkvar2.isSelected()) {
@@ -117,21 +119,21 @@ public class TaskConroller {
                     Newton variant1 = new Newton(-3,-1,1,3);
                     for (double x = -3; x <= 3; x += 0.25) {
                         result.append("X= ").append(String.format("%.3f ",x));
-                        result.append(" f(x) = ").append(String.format("%.3f ",variant1.Func(x)));
+                        result.append(" f(x) = ").append(String.format("%.3f ",variant1.Fист(x)));
                         result.append(" P3(x) = ").append(String.format("%.3f ",variant1.calculateNewton(x)));
-                        result.append("ΔP3 = ").append(String.format("%.6f\n",variant1.calculateNewton(x) - variant1.Func(x)));
+                        result.append("ΔP3 = ").append(String.format("%.6f\n",variant1.calculateNewton(x) - variant1.Fист(x)));
                     }
-                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant1.calculateNewton(-0.5)- variant1.Func(-0.5)));
+                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.20f",variant1.calculateNewton(-0.5)- variant1.Fист(-0.5)));
                 }
                 if (checkvar2.isSelected()){
                     Newton variant2 = new Newton(-3,0,1,3);
                     for (double x = -3; x <= 3; x += 0.25) {
                         result.append("X= ").append(String.format("%.3f ",x));
-                        result.append(" f(x) = ").append(String.format("%.3f ",variant2.Func(x)));
+                        result.append(" f(x) = ").append(String.format("%.3f ",variant2.Fист(x)));
                         result.append(" P3(x) = ").append(String.format("%.3f ",variant2.calculateNewton(x)));
-                        result.append("ΔP3 = ").append(String.format("%.6f\n",variant2.calculateNewton(x) - variant2.Func(x)));
+                        result.append("ΔP3 = ").append(String.format("%.6f\n",variant2.calculateNewton(x) - variant2.Fист(x)));
                     }
-                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant2.calculateNewton(-0.5)- variant2.Func(-0.5)));
+                    result.append("ПОГРЕШНОСТЬ ИНТЕРПОЛЯЦИИ: ").append(String.format("%.4f",variant2.calculateNewton(-0.5)- variant2.Fист(-0.5)));
                 }
             }
             textArea.setText(result.toString());

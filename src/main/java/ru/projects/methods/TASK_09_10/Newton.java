@@ -6,10 +6,10 @@ public class Newton {
     private double X2;
     private double X3;
 
-    private double[] funcVar = new double[4];
-    private double[] funcVarX1 = new double[3];
-    private double[] funcVarX2 = new double[2];
-    private double[] funcVarX3 = new double[1];
+    private double funcVar ;
+    private double funcVarX1 ;
+    private double funcVarX2 ;
+    private double funcVarX3 ;
 
 
     public Newton(double x0, double x1, double x2, double x3) {
@@ -20,12 +20,12 @@ public class Newton {
         calculate();
     }
 
-    public double Func(double x){
+    public double Fист(double x){
         return Math.atan(x)+x;
     }
 
     public double calculateNewton(double x){
-        return funcVar[0] + funcVarX1[0]*(x-X0) + funcVarX2[0]*(x-X0)*(x-X1) + funcVarX3[0]*(x-X0)*(x-X1)*(x-X2)  ;
+        return  funcVar + funcVarX1*(x-X0) + funcVarX2*(x-X0)*(x-X1) + funcVarX3*(x-X0)*(x-X1)*(x-X2)  ;
     }
 
 
@@ -33,29 +33,29 @@ public class Newton {
         calculateFisrt();
         calculateSecond();
         calculateThird();
-        calculateFourth();
+        calculateFour();
     }
     private void calculateFisrt(){
-        funcVar[0] = Math.atan(X0)+X0;
+        funcVar = Math.atan(X0)+X0;
 
     }
 
     private void calculateSecond(){
-        funcVarX1[0] = (Math.atan(X0)+X0)/(X0-X1) + (Math.atan(X1)+X1)/(X1-X0) ;
+        funcVarX1 = (((Math.atan(X0)+X0)/(X0-X1)) + ((Math.atan(X1)+X1)/(X1-X0))) ;
 
     }
 
     private void calculateThird(){
-        funcVarX2[0] = ((Math.atan(X0)+X0)/((X0-X1)*(X0-X2)))+((Math.atan(X1)+X1)/((X1-X0)*(X1-X2)))+
-                ((Math.atan(X2)+X2)/((X2-X0)*(X2-X1)));
+        funcVarX2 = (((Math.atan(X0)+X0)/((X0-X1)*(X0-X2)))+((Math.atan(X1)+X1)/((X1-X0)*(X1-X2)))+
+                ((Math.atan(X2)+X2)/((X2-X0)*(X2-X1))));
 
     }
 
-    private void calculateFourth(){
-        funcVarX3[0] = (Math.atan(X3)+X3)/((X3-X2)*(X3-X1)*(X3-X0))+
+    private void calculateFour(){
+        funcVarX3 = ((Math.atan(X3)+X3)/((X3-X2)*(X3-X1)*(X3-X0))+
                 (Math.atan(X2)+X2)/((X2-X3)*(X2-X1)*(X2-X0))+
-                (Math.atan(X1)+X1)/((X1-X3)*(X1 - X2)*(X1-X0))+
-                (Math.atan(X0)+X0)/((X0-X3)*(X0 - X2)*(X0-X1));
+                (Math.atan(X1)+X1)/((X1-X3)*(X1-X2)*(X1-X0))+
+                (Math.atan(X0)+X0)/((X0-X3)*(X0-X2)*(X0-X1)));
     }
 
 }

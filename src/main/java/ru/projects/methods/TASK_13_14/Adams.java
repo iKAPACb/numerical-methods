@@ -15,7 +15,7 @@ public class Adams extends Method {
     //1
     private ArrayList<Double> dy = new ArrayList<>();
     //2
-    private ArrayList<Double> dd = new ArrayList<>();
+    private ArrayList<Double> ddy = new ArrayList<>();
 
     public Adams(double h) {
         super(h);
@@ -46,14 +46,14 @@ public class Adams extends Method {
                 y.remove(4);
             } else {
                 dy.add(z.get(i));
-                dd.add(gFunc(x.get(i), y.get(i), z.get(i)));
+                ddy.add(gFunc(x.get(i), y.get(i), z.get(i)));
             }
         }
 
         for (int i = 4; i < x.size(); i++) {
             y.add(y.get(i - 1) + (h / 24) * (55 * dy.get(i - 1) - 59 * dy.get(i - 2) + 37 * dy.get(i - 3) - 9 * dy.get(i - 4)));
-            dy.add(dy.get(i - 1) + (h / 24) * (55 * dd.get(i - 1) - 59 * dd.get(i - 2) + 37 * dd.get(i - 3) - 9 * dd.get(i - 4)));
-            dd.add(gFunc(x.get(i), y.get(i), dy.get(i)));
+            dy.add(dy.get(i - 1) + (h / 24) * (55 * ddy.get(i - 1) - 59 * ddy.get(i - 2) + 37 * ddy.get(i - 3) - 9 * ddy.get(i - 4)));
+            ddy.add(gFunc(x.get(i), y.get(i), dy.get(i)));
         }
     }
 
@@ -62,7 +62,7 @@ public class Adams extends Method {
         ArrayList<AdamsBbIvod> forTable = new ArrayList<>();
 
         for (int i = 0; i < x.size(); i++) {
-            forTable.add(new AdamsBbIvod(i, h, x.get(i), y.get(i), dy.get(i), dd.get(i), z.get(i), delta_z.get(i), delta_y.get(i), istFunc(x.get(i)), Math.abs(istFunc(x.get(i)) - y.get(i))));
+            forTable.add(new AdamsBbIvod(i, h, x.get(i), y.get(i), dy.get(i), ddy.get(i), z.get(i), delta_z.get(i), delta_y.get(i), istFunc(x.get(i)), Math.abs(istFunc(x.get(i)) - y.get(i))));
         }
 
         return forTable;

@@ -2,9 +2,9 @@ package ru.projects.methods.TASK_13_14;
 
 import java.util.ArrayList;
 
-public class Euler extends Method {
+public class EuleR extends Method {
 
-    public Euler(double h) {
+    public EuleR(double h) {
         super(h);
         delta_y.add(0.0);
         delta_z.add(0.0);

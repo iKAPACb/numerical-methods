@@ -52,8 +52,8 @@ public class Controller {
         eulerKoshiList.addAll(eulerKoshiListH1);
         eulerKoshiList.addAll(eulerKoshiListH2);
 
-        ArrayList<EulerBbIvod> eulerListH1 = new Euler(0.1).createCells();
-        ArrayList<EulerBbIvod> eulerListH2 = new Euler(0.05).createCells();
+        ArrayList<EulerBbIvod> eulerListH1 = new EuleR(0.1).createCells();
+        ArrayList<EulerBbIvod> eulerListH2 = new EuleR(0.05).createCells();
         ArrayList<EulerBbIvod> eulerList = new ArrayList<>();
         eulerList.addAll(eulerListH1);
         eulerList.addAll(eulerListH2);
